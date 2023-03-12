@@ -7,7 +7,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(405).end();
   }
 
-  const bookList = await prisma.book.findMany();
+  const bookList = await prisma.book.findMany({
+    include: { authors: true, categories: true }
+  });
 
   return res.json(bookList);
 }

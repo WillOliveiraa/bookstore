@@ -1,9 +1,11 @@
+import { AxiosError } from 'axios';
+import dayjs from 'dayjs';
 import Link from 'next/link';
 import { RiAddLine, RiPencilLine } from 'react-icons/ri';
 
 import { SubHeader } from '@/components/SubHeader';
+import { BrReal } from '@/lib/intl';
 import {
-  Box,
   Button,
   Checkbox,
   Icon,
@@ -16,10 +18,39 @@ import {
   Tr,
   useBreakpointValue
 } from '@chakra-ui/react';
+import { useQuery } from '@tanstack/react-query';
 
 import { Pagination } from '../../components/Pagination';
+import AuthorModel from '../../features/book/data/models/author_model';
+import CategoryModel from '../../features/book/data/models/category_model';
+import { api } from '../../lib/axios';
+
+interface Book {
+  id: string;
+  title: string;
+  price: number;
+  numPages: number;
+  publishDate: Date;
+  imageUrl: string;
+
+  authors: AuthorModel[];
+  categories: CategoryModel[];
+}
 
 export default function BookList() {
+  const { data: books } = useQuery(['getAllBook'], async () => {
+    try {
+      const response = await api.get<Book[]>('/book');
+
+      return response.data;
+    } catch (err) {
+      if (err instanceof AxiosError && err?.response?.data?.message) {
+        alert(err.response.data.message);
+        return;
+      }
+    }
+  });
+
   const isWideVersion = useBreakpointValue({
     base: false,
     lg: true
@@ -46,36 +77,44 @@ export default function BookList() {
             <Th px="6" color="gray.300" width="8">
               <Checkbox colorScheme="pink" />
             </Th>
-            <Th>Livros</Th>
-            {isWideVersion && <Th>Data de Cadastro</Th>}
+            <Th>Título</Th>
+            <Th>Categoria</Th>
+            {isWideVersion && <Th>Data de Publicação</Th>}
+            <Th>Preço</Th>
             <Th width="8">Ações</Th>
           </Tr>
         </Thead>
         <Tbody>
-          <Tr>
-            <Td px={['4', '4', '6']}>
-              <Checkbox colorScheme="pink" />
-            </Td>
-            <Td>
-              <Box>
-                <Text fontWeight="bold">Bíblia Sagrada</Text>
-                <Text fontSize="sm" color="gray.300">
-                  O mais vendido de todos
-                </Text>
-              </Box>
-            </Td>
-            {isWideVersion && <Td>08 de Março, 2023</Td>}
-            <Td>
-              <Button
-                size="sm"
-                fontSize="sm"
-                colorScheme="purple"
-                leftIcon={<Icon as={RiPencilLine} fontSize="16" />}
-              >
-                Editar
-              </Button>
-            </Td>
-          </Tr>
+          {books &&
+            books.map((book) => {
+              return (
+                <Tr key={book.id}>
+                  <Td px={['4', '4', '6']}>
+                    <Checkbox colorScheme="pink" />
+                  </Td>
+                  <Td>
+                    <Text fontWeight="bold">{book.title}</Text>
+                  </Td>
+                  <Td>
+                    <Text fontSize="sm" color="gray.300">
+                      {book.categories[0].title}
+                    </Text>
+                  </Td>
+                  {isWideVersion && <Td>{dayjs(book.publishDate).format('DD/MM/YYYY')}</Td>}
+                  <Td>{BrReal.format(book.price)}</Td>
+                  <Td>
+                    <Button
+                      size="sm"
+                      fontSize="sm"
+                      colorScheme="purple"
+                      leftIcon={<Icon as={RiPencilLine} fontSize="16" />}
+                    >
+                      Editar
+                    </Button>
+                  </Td>
+                </Tr>
+              );
+            })}
         </Tbody>
       </Table>
       <Pagination />
