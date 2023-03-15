@@ -1,5 +1,6 @@
 import type { AppProps } from 'next/app';
 
+import { EditCategoryProvider } from '@/context/categories/EditCategoryContext';
 import { ChakraProvider } from '@chakra-ui/react';
 import { QueryClientProvider } from '@tanstack/react-query';
 
@@ -13,7 +14,9 @@ export default function App({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <ChakraProvider theme={theme}>
         <SidebarDrawerProvider>
-          <Component {...pageProps} />
+          <EditCategoryProvider>
+            <Component {...pageProps} />
+          </EditCategoryProvider>
         </SidebarDrawerProvider>
       </ChakraProvider>
     </QueryClientProvider>

@@ -70,6 +70,7 @@ export default function BookList() {
   );
 
   return (
+    // <EditBookContext.Provider>
     <SubHeader title="Livros" actions={actions}>
       <Table colorScheme="whiteAlpha">
         <Thead>
@@ -119,5 +120,6 @@ export default function BookList() {
       </Table>
       <Pagination />
     </SubHeader>
+    // </EditBookContext.Provider>
   );
 }
