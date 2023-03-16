@@ -10,9 +10,9 @@ const validateOptions: ValidateOptions<AnyObject> = {
 
 export function validate(schema: ObjectSchema<AnyObject>, handle: NextApiHandler) {
   return async (req: NextApiRequest, res: NextApiResponse) => {
-    if (req.method && ['POST', 'PUT'].includes(req.method)) {
+    if (!!req.method) {
       try {
-        if (req.method === 'PUT') {
+        if (['PUT', 'DELETE'].includes(req.method)) {
           req.query = await object()
             .shape({
               id: string().trim().required('Id is a required field')
@@ -20,7 +20,9 @@ export function validate(schema: ObjectSchema<AnyObject>, handle: NextApiHandler
             .validate(req.query, validateOptions);
         }
 
-        req.body = await schema.validate(req.body, validateOptions);
+        if (req.method !== 'DELETE' && req.method !== 'GET') {
+          req.body = await schema.validate(req.body, validateOptions);
+        }
       } catch (error) {
         return res
           .status(400)

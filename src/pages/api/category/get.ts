@@ -10,12 +10,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const { id } = req.query;
 
   if (!id) {
-    return res.status(400).json({ message: 'Id no provided.' });
+    return res.status(400).json({ message: 'Id is a required field.' });
   }
 
   const category = await prisma.category.findFirst({
-    where: { id: String(id) }
+    where: { id: String(id), deleted_at: null }
   });
 
-  return res.json(category);
+  return res.json(category ?? {});
 }

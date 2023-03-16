@@ -12,27 +12,11 @@ handler.get(async (req, res) => {
     return res.status(405).end();
   }
 
-  const categoryList = await prisma.category.findMany();
-
-  return res.json(categoryList);
-});
-
-handler.get('/get', async (req, res) => {
-  if (req.method !== 'GET') {
-    return res.status(405).end();
-  }
-
-  const { id } = req.query;
-
-  if (!id) {
-    return res.status(400).json({ message: 'Id is a required field.' });
-  }
-
-  const category = await prisma.category.findFirst({
-    where: { id: String(id) }
+  const categoryList = await prisma.category.findMany({
+    where: { deleted_at: null }
   });
 
-  return res.json(category);
+  return res.json(categoryList);
 });
 
 handler.post(async (req, res) => {
@@ -66,6 +50,27 @@ handler.put(async (req, res) => {
       description: description,
       book_id: bookId,
       updated_at: dayjs().toDate()
+    }
+  });
+
+  return res.json(category);
+});
+
+handler.delete(async (req, res) => {
+  if (req.method !== 'DELETE') {
+    return res.status(405).end();
+  }
+
+  const { id } = req.query;
+
+  console.log(id);
+
+  const category = await prisma.category.update({
+    where: {
+      id: String(id)
+    },
+    data: {
+      deleted_at: dayjs().toDate()
     }
   });
 
