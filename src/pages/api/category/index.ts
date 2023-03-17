@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 
 import { prisma } from '../../../lib/prisma';
+import { authenticated } from '../../../middleware/authenticated';
 import handler from '../../../middleware/handler';
 import { validate } from '../../../middleware/validate';
 import { CategorySchema } from '../../../models/category_model';
@@ -12,11 +13,21 @@ handler.get(async (req, res) => {
     return res.status(405).end();
   }
 
-  const categoryList = await prisma.category.findMany({
-    where: { deleted_at: null }
+  const { id } = req.query;
+
+  if (!id) {
+    const categoryList = await prisma.category.findMany({
+      where: { deleted_at: null }
+    });
+
+    return res.json(categoryList);
+  }
+
+  const category = await prisma.category.findFirst({
+    where: { id: String(id), deleted_at: null }
   });
 
-  return res.json(categoryList);
+  return res.json(category ?? {});
 });
 
 handler.post(async (req, res) => {
@@ -77,4 +88,4 @@ handler.delete(async (req, res) => {
   return res.json(category);
 });
 
-export default validate(categorySchema, handler);
+export default authenticated(validate(categorySchema, handler));
