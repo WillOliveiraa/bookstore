@@ -14,6 +14,15 @@ handler.post(async (req, res) => {
 
   const { name, email, password } = req.body;
 
+  const checkUserEmail = await prisma.user.findFirst({
+    select: { email: true },
+    where: { email }
+  });
+
+  if (!!checkUserEmail) {
+    return res.status(400).json({ message: 'Email alredy exists' });
+  }
+
   hash(password, 10, async (_, hash) => {
     const user = await prisma.user.create({
       data: { name, email, password: hash }
