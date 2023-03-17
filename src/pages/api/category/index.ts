@@ -4,7 +4,7 @@ import { prisma } from '../../../lib/prisma';
 import { authenticated } from '../../../middleware/authenticated';
 import handler from '../../../middleware/handler';
 import { validate } from '../../../middleware/validate';
-import { CategorySchema } from '../../../models/category_model';
+import { CategorySchema } from '../../../schemas/category_schema';
 
 const categorySchema = CategorySchema(false);
 
@@ -31,7 +31,7 @@ handler.get(async (req, res) => {
 });
 
 handler.post(async (req, res) => {
-  const { title, description, bookId } = req.body;
+  const { title, description, bookId } = categorySchema.cast(req.body);
 
   const category = await prisma.category.create({
     data: {
@@ -73,8 +73,6 @@ handler.delete(async (req, res) => {
   }
 
   const { id } = req.query;
-
-  console.log(id);
 
   const category = await prisma.category.update({
     where: {
