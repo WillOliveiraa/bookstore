@@ -8,6 +8,7 @@ import { AuthorSchema } from '../../../schemas/author_schema';
 
 const authorSchema = AuthorSchema(false);
 
+// GET
 handler.get(async (req, res) => {
   if (req.method !== 'GET') {
     return res.status(405).end();
@@ -30,6 +31,7 @@ handler.get(async (req, res) => {
   return res.json(author ?? {});
 });
 
+// POST
 handler.post(async (req, res) => {
   const { firstName, lastName, bookId } = authorSchema.cast(req.body);
 
@@ -44,6 +46,7 @@ handler.post(async (req, res) => {
   return res.status(201).json(author);
 });
 
+// PUT
 handler.put(async (req, res) => {
   if (req.method !== 'PUT') {
     return res.status(405).end();
@@ -67,6 +70,7 @@ handler.put(async (req, res) => {
   return res.json(author);
 });
 
+// DELETE
 handler.delete(async (req, res) => {
   if (req.method !== 'DELETE') {
     return res.status(405).end();
