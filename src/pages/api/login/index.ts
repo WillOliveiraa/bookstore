@@ -32,7 +32,7 @@ handler.post(async (req, res) => {
 
       res.setHeader(
         'Set-Cookie',
-        cookie.serialize('auth', jwt, {
+        cookie.serialize('bookstoreAuth', jwt, {
           httpOnly: true,
           secure: process.env.NODE_ENV !== 'development',
           sameSite: 'strict',
@@ -43,8 +43,6 @@ handler.post(async (req, res) => {
 
       return res.json({ message: 'Welcome back to the app!' });
     }
-
-    return res.json({ message: 'Welcome back to the app!' });
   }
 
   return res.status(400).json({ message: errorMessage });

@@ -1,3 +1,7 @@
+const Api = {
+  url: 'http://localhost:3000/api'
+};
+
 const CategoriesUrl = {
   front: {
     list: '/categories',
@@ -9,4 +13,4 @@ const CategoriesUrl = {
   }
 };
 
-export { CategoriesUrl };
+export { CategoriesUrl, Api };
