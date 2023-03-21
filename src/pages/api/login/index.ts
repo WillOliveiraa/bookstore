@@ -41,7 +41,14 @@ handler.post(async (req, res) => {
         })
       );
 
-      return res.json({ message: 'Welcome back to the app!' });
+      return res.json({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        avatarUrl: user.avatar_url
+      });
+
+      // return res.json(user.id);
     }
   }
 
