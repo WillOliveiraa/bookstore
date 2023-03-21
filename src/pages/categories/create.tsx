@@ -9,9 +9,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Input } from '../../components/Form/Input';
 import { Header } from '../../components/Header';
 import { Sidebar } from '../../components/Sidebar';
-import { useEditCategory } from '../../context/categories/EditCategoryContext';
+import { useEditCategory } from '../../contexts/categories/EditCategoryContext';
 import { api } from '../../lib/axios';
-import CategoryModel, { CategorySchema } from '../../models/category_model';
+import CategoryModel from '../../models/category_model';
+import { CategorySchema } from '../../schemas/category_schema';
 import { CategoriesUrl } from '../../utlis/urls';
 
 export default function CreateCategory() {

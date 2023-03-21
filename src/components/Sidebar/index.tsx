@@ -1,4 +1,4 @@
-import { useSidebarDrawer } from '@/context/SidebarDrawerContext';
+import { useSidebarDrawer } from '@/contexts/SidebarDrawerContext';
 import {
   Box,
   Drawer,

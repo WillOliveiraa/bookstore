@@ -1,78 +1,87 @@
-import { SubmitHandler, useForm } from 'react-hook-form';
-import * as yup from 'yup';
+// import { NextPageContext } from 'next';
+import { ApexOptions } from 'apexcharts';
+import dynamic from 'next/dynamic';
 
-import { Button, Flex, Image, Stack, Text } from '@chakra-ui/react';
-import { yupResolver } from '@hookform/resolvers/yup';
+// import { Api } from '@/utlis/urls';
+import { Box, SimpleGrid, Text, theme } from '@chakra-ui/react';
 
-import { Input } from '../components/Form/Input';
+import LayoutPage from '../components/LayoutPage';
 
-type SignInFormData = {
-  email: string;
-  password: string;
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
+const options: ApexOptions = {
+  chart: {
+    toolbar: {
+      show: false
+    },
+    zoom: {
+      enabled: false
+    },
+    foreColor: theme.colors.gray[500]
+  },
+  grid: {
+    show: false
+  },
+  dataLabels: {
+    enabled: false
+  },
+  tooltip: {
+    enabled: false
+  },
+  xaxis: {
+    type: 'datetime',
+    axisBorder: {
+      color: theme.colors.gray[600]
+    },
+    axisTicks: {
+      color: theme.colors.gray[600]
+    },
+    categories: [
+      '2023-03-08T00:00:00.000Z',
+      '2023-03-09T00:00:00.000Z',
+      '2023-03-10T00:00:00.000Z',
+      '2023-03-11T00:00:00.000Z',
+      '2023-03-12T00:00:00.000Z',
+      '2023-03-13T00:00:00.000Z',
+      '2023-03-14T00:00:00.000Z'
+    ]
+  },
+  fill: {
+    opacity: 0.3,
+    type: 'gradient',
+    gradient: {
+      shade: 'dark',
+      opacityFrom: 0.7,
+      opacityTo: 0.3
+    }
+  }
 };
 
-const signInFormSchema = yup.object().shape({
-  email: yup.string().required('E-mail obrigatório').email('E-mail inválido'),
-  password: yup.string().required('Senha obrigatória')
-});
+const series = [{ name: 'series1', data: [31, 120, 10, 28, 61, 18, 109] }];
 
-export default function SignIn() {
-  const {
-    register,
-    handleSubmit,
-    formState: { isSubmitting, errors }
-  } = useForm<SignInFormData>({ resolver: yupResolver(signInFormSchema) });
-
-  const handleSignIn: SubmitHandler<SignInFormData> = async (values) => {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-
-    console.log(values);
-  };
-
+export default function Dashboard() {
   return (
-    <Flex w="100vw" h="100vh" align="center" justify="center" direction="column">
-      <Flex align="center" gap="2">
-        <Image src="/bookstore.png" width={100} height={100} alt="Book Store" />
-        <Text fontSize={['3xl', '4xl']} fontWeight="bold" letterSpacing="tight">
-          bookStore
-          <Text as="span" ml="1" color="pink.500">
-            .
+    <LayoutPage>
+      <SimpleGrid flex="1" gap="4" minChildWidth="320px" alignItems="flex-start">
+        <Box p={['6', '8']} bg="gray.800" borderRadius={8} pb="4">
+          <Text fontSize="lg" mb="4" fontWeight="semibold">
+            Inscritos da semana
           </Text>
-        </Text>
-      </Flex>
-      <Flex
-        as="form"
-        width="100%"
-        maxWidth={360}
-        bg="gray.800"
-        p="8"
-        mt="10"
-        borderRadius={8}
-        flexDir="column"
-        onSubmit={handleSubmit(handleSignIn)}
-      >
-        <Stack spacing="4">
-          <Input
-            {...register('email')}
-            name="email"
-            type="email"
-            label="E-mail"
-            error={errors.email}
-          />
-
-          <Input
-            {...register('password')}
-            name="password"
-            type="password"
-            label="Senha"
-            error={errors.password}
-          />
-        </Stack>
-
-        <Button type="submit" mt="6" colorScheme="pink" size="lg" isLoading={isSubmitting}>
-          Entrar
-        </Button>
-      </Flex>
-    </Flex>
+          <Chart type="area" height={160} options={options} series={series} />
+        </Box>
+        <Box p={['6', '8']} bg="gray.800" borderRadius={8} pb="4">
+          <Text fontSize="lg" mb="4">
+            Taxa de Abertura
+          </Text>
+          <Chart type="area" height={160} options={options} series={series} />
+        </Box>
+      </SimpleGrid>
+    </LayoutPage>
   );
 }
+
+// Dashboard.getInitialProps = async (ctx: NextPageContext) => {
+//   const response = await myGet(`${Api.url}/user`, ctx);
+
+//   return { user: response };
+// };
