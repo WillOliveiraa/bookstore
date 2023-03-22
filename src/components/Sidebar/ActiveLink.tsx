@@ -6,9 +6,15 @@ import { useRouter } from 'next/router';
 interface ActiveLinkProps extends LinkProps {
   children: ReactElement;
   shouldMatchExactHref?: boolean;
+  isDark: boolean;
 }
 
-export function ActiveLink({ children, shouldMatchExactHref = false, ...rest }: ActiveLinkProps) {
+export function ActiveLink({
+  children,
+  shouldMatchExactHref = false,
+  isDark,
+  ...rest
+}: ActiveLinkProps) {
   const { asPath } = useRouter();
 
   let isActive = false;
@@ -24,10 +30,17 @@ export function ActiveLink({ children, shouldMatchExactHref = false, ...rest }: 
     isActive = true;
   }
 
+  function getColor() {
+    if (isActive) {
+      return 'pink.500';
+    }
+    return isDark ? 'gray.50' : 'gray.500';
+  }
+
   return (
     <Link {...rest}>
       {cloneElement(children, {
-        color: isActive ? 'pink.400' : 'gray.50'
+        color: getColor()
       })}
     </Link>
   );

@@ -1,9 +1,7 @@
-// import { NextPageContext } from 'next';
 import { ApexOptions } from 'apexcharts';
 import dynamic from 'next/dynamic';
 
-// import { Api } from '@/utlis/urls';
-import { Box, SimpleGrid, Text, theme } from '@chakra-ui/react';
+import { Box, SimpleGrid, Text, theme, useColorMode, useColorModeValue } from '@chakra-ui/react';
 
 import LayoutPage from '../components/LayoutPage';
 
@@ -60,28 +58,54 @@ const options: ApexOptions = {
 const series = [{ name: 'series1', data: [31, 120, 10, 28, 61, 18, 109] }];
 
 export default function Dashboard() {
+  const { colorMode, toggleColorMode } = useColorMode();
+  const bg = useColorModeValue('primary.light', 'primary.dark');
+  const isDark = colorMode === 'dark';
+
+  function CustomChart(title: string) {
+    return (
+      <Box p={['6', '8']} bg={isDark ? 'gray.800' : 'gray.50'} borderRadius={8} pb="4">
+        <Text fontSize="lg" mb="4" fontWeight="semibold">
+          {title}
+        </Text>
+        <Chart type="area" height={160} options={options} series={series} />
+      </Box>
+    );
+  }
+
   return (
     <LayoutPage>
       <SimpleGrid flex="1" gap="4" minChildWidth="320px" alignItems="flex-start">
-        <Box p={['6', '8']} bg="gray.800" borderRadius={8} pb="4">
-          <Text fontSize="lg" mb="4" fontWeight="semibold">
-            Inscritos da semana
-          </Text>
-          <Chart type="area" height={160} options={options} series={series} />
-        </Box>
-        <Box p={['6', '8']} bg="gray.800" borderRadius={8} pb="4">
-          <Text fontSize="lg" mb="4">
-            Taxa de Abertura
-          </Text>
-          <Chart type="area" height={160} options={options} series={series} />
-        </Box>
+        {CustomChart('Inscritos da semana')}
+        {CustomChart('Taxa de Abertura')}
+        {/* <Box>
+          <Button onClick={toggleColorMode}>
+            {colorMode === 'light' ? (
+              <Icon as={RiSunLine} />
+            ) : (
+              <Icon as={RiMoonFill} color="icon" />
+            )}
+          </Button>
+          <Box
+            bg={bg}
+            w="100%"
+            p={4}
+            display="flex"
+            mt="4"
+            alignItems="center"
+            cursor="pointer"
+            borderLeft="6px solid"
+            borderColor="secondary"
+            borderRadius="5px"
+            boxShadow="dark-lg"
+          >
+            <Text variant="primary" fontSize="24px" fontWeight="bold" mr="1.5rem">
+              Chakra-UI Color mode in Next.Js
+            </Text>
+            <Button variant="primary">😀 open</Button>
+          </Box>
+        </Box> */}
       </SimpleGrid>
     </LayoutPage>
   );
 }
-
-// Dashboard.getInitialProps = async (ctx: NextPageContext) => {
-//   const response = await myGet(`${Api.url}/user`, ctx);
-
-//   return { user: response };
-// };

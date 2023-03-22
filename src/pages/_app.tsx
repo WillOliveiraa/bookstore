@@ -12,8 +12,8 @@ import { theme } from '../styles/theme';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <QueryClientProvider client={queryClient}>
-      <ChakraProvider theme={theme}>
+    <ChakraProvider theme={theme}>
+      <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <SidebarDrawerProvider>
             <EditCategoryProvider>
@@ -21,7 +21,7 @@ export default function App({ Component, pageProps }: AppProps) {
             </EditCategoryProvider>
           </SidebarDrawerProvider>
         </AuthProvider>
-      </ChakraProvider>
-    </QueryClientProvider>
+      </QueryClientProvider>
+    </ChakraProvider>
   );
 }

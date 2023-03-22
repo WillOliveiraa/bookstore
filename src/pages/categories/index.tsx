@@ -26,6 +26,7 @@ import { useQuery } from '@tanstack/react-query';
 
 // import { createColumnHelper } from '@tanstack/react-table';
 import CustomAlertDialog from '../../components/AlertDialog';
+import LayoutPage from '../../components/LayoutPage';
 import { Pagination } from '../../components/Pagination';
 // import data from '../../components/SortableTable/data.json';
 import { api } from '../../lib/axios';
@@ -99,67 +100,69 @@ export default function CategoriesList() {
   }
 
   return (
-    <SubHeader title="Categorias" actions={actions}>
-      <Table variant="striped" colorScheme="whiteAlpha">
-        <Thead>
-          <Tr>
-            <Th px="6" color="gray.300" width="8">
-              <Checkbox colorScheme="pink" />
-            </Th>
-            <Th>Título</Th>
-            <Th>Descrição</Th>
-            <Th width="8">Ações</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {categories &&
-            categories.map((category) => {
-              return (
-                <Tr key={category.id}>
-                  <Td px={['4', '4', '6']}>
-                    <Checkbox colorScheme="pink" />
-                  </Td>
-                  <Td>
-                    <Text fontWeight="bold">{category.title}</Text>
-                  </Td>
-                  <Td>
-                    <Text fontSize="sm" color="gray.300">
-                      {category.description}
-                    </Text>
-                  </Td>
-                  <Td>
-                    <Flex gap="2">
-                      <Link href={CategoriesUrl.front.create} passHref>
+    <LayoutPage>
+      <SubHeader title="Categorias" actions={actions}>
+        <Table variant="striped" colorScheme="whiteAlpha">
+          <Thead>
+            <Tr>
+              <Th px="6" color="gray.300" width="8">
+                <Checkbox colorScheme="pink" />
+              </Th>
+              <Th>Título</Th>
+              <Th>Descrição</Th>
+              <Th width="8">Ações</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {categories &&
+              categories.map((category) => {
+                return (
+                  <Tr key={category.id}>
+                    <Td px={['4', '4', '6']}>
+                      <Checkbox colorScheme="pink" />
+                    </Td>
+                    <Td>
+                      <Text fontWeight="bold">{category.title}</Text>
+                    </Td>
+                    <Td>
+                      <Text fontSize="sm" color="gray.300">
+                        {category.description}
+                      </Text>
+                    </Td>
+                    <Td>
+                      <Flex gap="2">
+                        <Link href={CategoriesUrl.front.create} passHref>
+                          <Button
+                            size="sm"
+                            fontSize="sm"
+                            colorScheme="purple"
+                            leftIcon={<Icon as={RiPencilLine} fontSize="16" />}
+                            onClick={() => handleEditCategory(category)}
+                          >
+                            Editar
+                          </Button>
+                        </Link>
                         <Button
                           size="sm"
                           fontSize="sm"
-                          colorScheme="purple"
-                          leftIcon={<Icon as={RiPencilLine} fontSize="16" />}
-                          onClick={() => handleEditCategory(category)}
+                          colorScheme="red"
+                          leftIcon={<Icon as={RiDeleteBinLine} fontSize="16" />}
+                          onClick={() => onOpenAlert(category.title)}
                         >
-                          Editar
+                          Excluir
                         </Button>
-                      </Link>
-                      <Button
-                        size="sm"
-                        fontSize="sm"
-                        colorScheme="red"
-                        leftIcon={<Icon as={RiDeleteBinLine} fontSize="16" />}
-                        onClick={() => onOpenAlert(category.title)}
-                      >
-                        Excluir
-                      </Button>
-                    </Flex>
-                  </Td>
-                </Tr>
-              );
-            })}
-        </Tbody>
-      </Table>
-      <Pagination totalPage={categories?.length} />
-      {/* <DataTable columns={columns} data={categories ?? []} /> */}
-      {/* <SortableTable data={data} /> */}
-      <CustomAlertDialog message={alertMessage} onClose={onClose} isOpen={isOpen} />
-    </SubHeader>
+                      </Flex>
+                    </Td>
+                  </Tr>
+                );
+              })}
+          </Tbody>
+        </Table>
+        <Pagination totalPage={categories?.length} />
+        {/* <DataTable columns={columns} data={categories ?? []} /> */}
+        {/* <SortableTable data={data} /> */}
+        <CustomAlertDialog message={alertMessage} onClose={onClose} isOpen={isOpen} />
+      </SubHeader>
+    </LayoutPage>
   );
 }

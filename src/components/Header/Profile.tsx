@@ -1,4 +1,6 @@
-import { Avatar, Box, Flex, Text } from '@chakra-ui/react';
+import { Avatar, Box, Flex } from '@chakra-ui/react';
+
+import TextView from '../TextView';
 
 interface ProfileProps {
   showProfileData?: boolean;
@@ -17,11 +19,11 @@ export function Profile({
     <Flex align="center">
       {showProfileData && (
         <Box mr="4" textAlign="right">
-          {name && <Text>{name}</Text>}
+          {name && <TextView fontWeight="semibold">{name}</TextView>}
           {email && (
-            <Text color="gray.300" fontSize="small">
+            <TextView color="gray.300" fontSize="small">
               {email}
-            </Text>
+            </TextView>
           )}
         </Box>
       )}

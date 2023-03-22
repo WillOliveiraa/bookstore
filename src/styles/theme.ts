@@ -1,19 +1,57 @@
 import { extendTheme } from '@chakra-ui/react';
+import { mode } from '@chakra-ui/theme-tools';
+
+const textStyle = {
+  baseStyle: {},
+  sizes: {},
+  variants: {
+    primary: (props: any) => ({
+      color: mode('text.dark', 'text.light')(props)
+    })
+  },
+  defaultProps: {}
+};
+
+const buttonStyle = {
+  baseStyle: {},
+  sizes: {},
+  variants: {
+    primary: (props: any) => ({
+      color: mode('text.light', 'icon')(props),
+      bg: mode('primary.dark', 'secondary')(props)
+    })
+  },
+  defaultProps: {}
+};
 
 export const theme = extendTheme({
-  styles: {
-    global: {
-      body: {
-        bg: 'gray.900',
-        color: 'gray.50'
-      }
-    }
+  config: {
+    initialColorMode: 'dark',
+    useSystemColorMode: false
   },
+  // styles: {
+  //   global: {
+  //     body: {
+  //       bg: 'gray.900',
+  //       color: 'gray.50'
+  //     }
+  //   }
+  // },
   fonts: {
     heading: 'Lato',
     body: 'Lato'
   },
   colors: {
+    primary: {
+      dark: '#003100',
+      light: '#e6f6e6'
+    },
+    secondary: '#009400',
+    text: {
+      dark: '#000',
+      light: '#fff'
+    },
+    icon: '#ffd700',
     gray: {
       '50': '#EEEEF2',
       '100': '#D1D2DC',
@@ -25,6 +63,10 @@ export const theme = extendTheme({
       '700': '#353646',
       '800': '#1F2029',
       '900': '#181B23'
+    },
+    components: {
+      textStyle,
+      buttonStyle
     }
   }
 });

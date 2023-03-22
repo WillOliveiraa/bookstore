@@ -1,7 +1,13 @@
 import { ElementType } from 'react';
 
-import { Icon, Link as ChakraLink, LinkProps as ChakraLinkProps, Text } from '@chakra-ui/react';
+import {
+  Icon,
+  Link as ChakraLink,
+  LinkProps as ChakraLinkProps,
+  useColorMode
+} from '@chakra-ui/react';
 
+import TextView from '../TextView';
 import { ActiveLink } from './ActiveLink';
 
 interface NavLinkProps extends ChakraLinkProps {
@@ -11,8 +17,12 @@ interface NavLinkProps extends ChakraLinkProps {
 }
 
 export function NavLink({ icon, children, href, ...rest }: NavLinkProps) {
+  const { colorMode } = useColorMode();
+
+  const isDark = colorMode === 'dark';
+
   return (
-    <ActiveLink href={href} passHref>
+    <ActiveLink href={href} passHref isDark={isDark}>
       <ChakraLink
         as="div"
         display="flex"
@@ -21,9 +31,9 @@ export function NavLink({ icon, children, href, ...rest }: NavLinkProps) {
         _hover={{ textDecor: 'none', color: 'gray.300' }}
       >
         <Icon as={icon} fontSize="20" />
-        <Text ml="4" fontWeight="semibold">
+        <TextView ml="4" fontWeight="semibold">
           {children}
-        </Text>
+        </TextView>
       </ChakraLink>
     </ActiveLink>
   );

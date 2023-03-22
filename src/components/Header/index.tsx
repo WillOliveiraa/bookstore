@@ -8,6 +8,7 @@ import { Logo } from './Logo';
 import { NotificationsNav } from './NotificationsNav';
 import { Profile } from './Profile';
 import { SearchBox } from './SearchBox';
+import SwitchTheme from './SwitchTheme';
 
 export function Header() {
   const { onOpen } = useSidebarDrawer();
@@ -33,6 +34,8 @@ export function Header() {
       {isWideVersion && <SearchBox />}
 
       <Flex align="center" ml="auto">
+        <SwitchTheme />
+
         <NotificationsNav />
 
         <Profile

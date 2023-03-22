@@ -47,8 +47,6 @@ handler.post(async (req, res) => {
         email: user.email,
         avatarUrl: user.avatar_url
       });
-
-      // return res.json(user.id);
     }
   }
 
