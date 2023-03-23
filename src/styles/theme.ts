@@ -46,12 +46,21 @@ export const theme = extendTheme({
       dark: '#003100',
       light: '#e6f6e6'
     },
-    secondary: '#009400',
+    secondary: { '500': '#008ffb', '700': '#007bd7' },
     text: {
       dark: '#000',
       light: '#fff'
     },
     icon: '#ffd700',
+    primaryColor: {
+      '500': '#D53F8C',
+      '700': '#97266D'
+    },
+    brand: {
+      50: '#44337A',
+      100: '#B794F4',
+      500: '#B794F4'
+    },
     gray: {
       '50': '#EEEEF2',
       '100': '#D1D2DC',

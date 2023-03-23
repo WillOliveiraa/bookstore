@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import { Box, Flex, Heading } from '@chakra-ui/react';
+import { Box, Flex, Heading, useColorMode } from '@chakra-ui/react';
 
 interface SubHeaderProps {
   title: string;
@@ -9,8 +9,12 @@ interface SubHeaderProps {
 }
 
 export function SubHeader({ title, children, actions }: SubHeaderProps) {
+  const { colorMode } = useColorMode();
+
+  const isDark = colorMode === 'dark';
+
   return (
-    <Box flex="1" borderRadius={8} bg="gray.800" p="8">
+    <Box flex="1" borderRadius={8} bg={isDark ? 'gray.800' : 'gray.50'} p="8">
       <Flex mb="8" justify="space-between" align="center">
         <Heading size="lg" fontWeight="bold">
           {title}

@@ -1,7 +1,17 @@
 import { ApexOptions } from 'apexcharts';
 import dynamic from 'next/dynamic';
+import { RiMoonFill, RiSunLine } from 'react-icons/ri';
 
-import { Box, SimpleGrid, Text, theme, useColorMode, useColorModeValue } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Icon,
+  SimpleGrid,
+  Text,
+  theme,
+  useColorMode,
+  useColorModeValue
+} from '@chakra-ui/react';
 
 import LayoutPage from '../components/LayoutPage';
 
@@ -78,7 +88,7 @@ export default function Dashboard() {
       <SimpleGrid flex="1" gap="4" minChildWidth="320px" alignItems="flex-start">
         {CustomChart('Inscritos da semana')}
         {CustomChart('Taxa de Abertura')}
-        {/* <Box>
+        <Box>
           <Button onClick={toggleColorMode}>
             {colorMode === 'light' ? (
               <Icon as={RiSunLine} />
@@ -104,7 +114,7 @@ export default function Dashboard() {
             </Text>
             <Button variant="primary">😀 open</Button>
           </Box>
-        </Box> */}
+        </Box>
       </SimpleGrid>
     </LayoutPage>
   );

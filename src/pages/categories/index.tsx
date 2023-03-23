@@ -20,6 +20,7 @@ import {
   Th,
   Thead,
   Tr,
+  useColorMode,
   useDisclosure
 } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
@@ -61,6 +62,8 @@ export default function CategoriesList() {
   const { setSelectedCategory } = useEditCategory();
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { colorMode } = useColorMode();
+  const isDark = colorMode === 'dark';
 
   const { data: categories } = useQuery(['getAllCategories'], async () => {
     try {
@@ -87,6 +90,9 @@ export default function CategoriesList() {
         size="sm"
         fontSize="sm"
         colorScheme="pink"
+        bgColor={isDark ? 'pink.500' : ''}
+        _hover={{ bgColor: 'pink.700' }}
+        textColor="white"
         leftIcon={<Icon as={RiAddLine} fontSize="20" />}
       >
         Criar nova
@@ -102,7 +108,7 @@ export default function CategoriesList() {
   return (
     <LayoutPage>
       <SubHeader title="Categorias" actions={actions}>
-        <Table variant="striped" colorScheme="whiteAlpha">
+        <Table variant="striped" colorScheme={isDark ? 'gray.200' : 'whiteAlpha'}>
           <Thead>
             <Tr>
               <Th px="6" color="gray.300" width="8">
@@ -135,7 +141,9 @@ export default function CategoriesList() {
                           <Button
                             size="sm"
                             fontSize="sm"
-                            colorScheme="purple"
+                            bgColor="secondary.500"
+                            textColor="white"
+                            _hover={{ bgColor: 'secondary.700' }}
                             leftIcon={<Icon as={RiPencilLine} fontSize="16" />}
                             onClick={() => handleEditCategory(category)}
                           >
@@ -145,7 +153,9 @@ export default function CategoriesList() {
                         <Button
                           size="sm"
                           fontSize="sm"
-                          colorScheme="red"
+                          bgColor="red.500"
+                          textColor="white"
+                          _hover={{ bgColor: 'red.600' }}
                           leftIcon={<Icon as={RiDeleteBinLine} fontSize="16" />}
                           onClick={() => onOpenAlert(category.title)}
                         >

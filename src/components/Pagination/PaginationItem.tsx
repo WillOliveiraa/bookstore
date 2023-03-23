@@ -1,4 +1,4 @@
-import { Button } from '@chakra-ui/react';
+import { Button, useColorMode } from '@chakra-ui/react';
 
 interface PaginationItemProps {
   number: number;
@@ -6,13 +6,20 @@ interface PaginationItemProps {
 }
 
 export function PaginationItem({ isCurrent = false, number }: PaginationItemProps) {
+  const { colorMode } = useColorMode();
+
+  const isDark = colorMode === 'dark';
+
   if (isCurrent) {
     return (
       <Button
         size="sm"
         fontSize="xs"
         width="4"
-        colorScheme="pink"
+        // colorScheme="pink"
+        bgColor="pink.500"
+        _hover={{ bgColor: 'pink.700' }}
+        textColor={'white'}
         disabled
         _disabled={{ bgColor: 'pink.500', cursor: 'default' }}
       >
@@ -22,7 +29,13 @@ export function PaginationItem({ isCurrent = false, number }: PaginationItemProp
   }
 
   return (
-    <Button size="sm" fontSize="xs" width="4" bg="gray.700" _hover={{ bgColor: 'gray.500' }}>
+    <Button
+      size="sm"
+      fontSize="xs"
+      width="4"
+      bg={isDark ? 'gray.700' : 'gray.100'}
+      _hover={{ bgColor: isDark ? 'gray.500' : 'gray.200' }}
+    >
       {number}
     </Button>
   );
