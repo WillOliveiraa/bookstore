@@ -53,6 +53,7 @@ export const theme = extendTheme({
     },
     icon: '#ffd700',
     primaryColor: {
+      '200': '#D53F8C',
       '500': '#D53F8C',
       '700': '#97266D'
     },

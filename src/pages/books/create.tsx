@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
-import { Input } from '@/components/Form/Input';
+import { Input } from '@/components/Form/DSInput';
 import { Box, Button, Divider, Flex, Heading, HStack, SimpleGrid, VStack } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 

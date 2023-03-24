@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { Button, Flex, Image, Stack, Text } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { Input } from '../../components/Form/Input';
+import { Input } from '../../components/Form/DSInput';
 import { useAuth } from '../../contexts/AuthContext';
 import { LoginModel } from '../../models/login_model';
 import { LoginSchema } from '../../schemas/login_schema';

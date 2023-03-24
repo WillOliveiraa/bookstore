@@ -16,9 +16,8 @@ export function PaginationItem({ isCurrent = false, number }: PaginationItemProp
         size="sm"
         fontSize="xs"
         width="4"
-        // colorScheme="pink"
         bgColor="pink.500"
-        _hover={{ bgColor: 'pink.700' }}
+        _hover={{ bgColor: 'pink.600' }}
         textColor={'white'}
         disabled
         _disabled={{ bgColor: 'pink.500', cursor: 'default' }}

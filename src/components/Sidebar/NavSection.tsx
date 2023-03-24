@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 
 import { Box, Stack, useColorMode } from '@chakra-ui/react';
 
-import TextView from '../TextView';
+import TextView from '../Form/DSTextView';
 
 interface NavSectionProps {
   title: string;

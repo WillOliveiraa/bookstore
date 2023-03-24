@@ -7,7 +7,7 @@ import {
   useColorMode
 } from '@chakra-ui/react';
 
-import TextView from '../TextView';
+import TextView from '../Form/DSTextView';
 import { ActiveLink } from './ActiveLink';
 
 interface NavLinkProps extends ChakraLinkProps {

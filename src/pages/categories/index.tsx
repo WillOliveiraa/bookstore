@@ -9,10 +9,7 @@ import { RiAddLine, RiDeleteBinLine, RiPencilLine } from 'react-icons/ri';
 import { SubHeader } from '@/components/SubHeader';
 import { useEditCategory } from '@/contexts/categories/EditCategoryContext';
 import {
-  Button,
-  Checkbox,
   Flex,
-  Icon,
   Table,
   Tbody,
   Td,
@@ -27,9 +24,11 @@ import { useQuery } from '@tanstack/react-query';
 
 // import { createColumnHelper } from '@tanstack/react-table';
 import CustomAlertDialog from '../../components/AlertDialog';
+// import data from '../../components/SortableTable/data.json';
+import DSButton from '../../components/Form/DSButton';
+import DSCheckbox from '../../components/Form/DSCheckbox';
 import LayoutPage from '../../components/LayoutPage';
 import { Pagination } from '../../components/Pagination';
-// import data from '../../components/SortableTable/data.json';
 import { api } from '../../lib/axios';
 import CategoryModel from '../../models/category_model';
 import { CategoriesUrl } from '../../utlis/urls';
@@ -85,19 +84,9 @@ export default function CategoriesList() {
   }
 
   const actions = (
-    <Link href={CategoriesUrl.front.create} passHref>
-      <Button
-        size="sm"
-        fontSize="sm"
-        colorScheme="pink"
-        bgColor={isDark ? 'pink.500' : ''}
-        _hover={{ bgColor: 'pink.700' }}
-        textColor="white"
-        leftIcon={<Icon as={RiAddLine} fontSize="20" />}
-      >
-        Criar nova
-      </Button>
-    </Link>
+    <DSButton icon={RiAddLine} hoverColorWeight="600" href={CategoriesUrl.front.create}>
+      Criar nova
+    </DSButton>
   );
 
   function onOpenAlert(title: string) {
@@ -108,11 +97,11 @@ export default function CategoriesList() {
   return (
     <LayoutPage>
       <SubHeader title="Categorias" actions={actions}>
-        <Table variant="striped" colorScheme={isDark ? 'gray.200' : 'whiteAlpha'}>
+        <Table>
           <Thead>
             <Tr>
               <Th px="6" color="gray.300" width="8">
-                <Checkbox colorScheme="pink" />
+                <DSCheckbox colorScheme="primaryColor" iconColor="white" />
               </Th>
               <Th>Título</Th>
               <Th>Descrição</Th>
@@ -125,7 +114,7 @@ export default function CategoriesList() {
                 return (
                   <Tr key={category.id}>
                     <Td px={['4', '4', '6']}>
-                      <Checkbox colorScheme="pink" />
+                      <DSCheckbox />
                     </Td>
                     <Td>
                       <Text fontWeight="bold">{category.title}</Text>
@@ -138,29 +127,24 @@ export default function CategoriesList() {
                     <Td>
                       <Flex gap="2">
                         <Link href={CategoriesUrl.front.create} passHref>
-                          <Button
-                            size="sm"
-                            fontSize="sm"
+                          <DSButton
                             bgColor="secondary.500"
-                            textColor="white"
-                            _hover={{ bgColor: 'secondary.700' }}
-                            leftIcon={<Icon as={RiPencilLine} fontSize="16" />}
+                            icon={RiPencilLine}
+                            iconSize={16}
                             onClick={() => handleEditCategory(category)}
                           >
                             Editar
-                          </Button>
+                          </DSButton>
                         </Link>
-                        <Button
-                          size="sm"
-                          fontSize="sm"
+                        <DSButton
                           bgColor="red.500"
-                          textColor="white"
-                          _hover={{ bgColor: 'red.600' }}
-                          leftIcon={<Icon as={RiDeleteBinLine} fontSize="16" />}
+                          icon={RiDeleteBinLine}
+                          iconSize={16}
+                          hoverColorWeight="600"
                           onClick={() => onOpenAlert(category.title)}
                         >
                           Excluir
-                        </Button>
+                        </DSButton>
                       </Flex>
                     </Td>
                   </Tr>

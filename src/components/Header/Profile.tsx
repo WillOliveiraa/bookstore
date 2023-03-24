@@ -1,6 +1,6 @@
 import { Avatar, Box, Flex } from '@chakra-ui/react';
 
-import TextView from '../TextView';
+import TextView from '../Form/DSTextView';
 
 interface ProfileProps {
   showProfileData?: boolean;
