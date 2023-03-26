@@ -1,17 +1,7 @@
 import { ApexOptions } from 'apexcharts';
 import dynamic from 'next/dynamic';
-import { RiMoonFill, RiSunLine } from 'react-icons/ri';
 
-import {
-  Box,
-  Button,
-  Icon,
-  SimpleGrid,
-  Text,
-  theme,
-  useColorMode,
-  useColorModeValue
-} from '@chakra-ui/react';
+import { Box, SimpleGrid, Text, theme, useColorMode, useColorModeValue } from '@chakra-ui/react';
 
 import LayoutPage from '../components/LayoutPage';
 
@@ -89,7 +79,7 @@ export default function Dashboard() {
         {CustomChart('Inscritos da semana')}
         {CustomChart('Taxa de Abertura')}
         <Box>
-          <Button onClick={toggleColorMode}>
+          {/* <Button onClick={toggleColorMode}>
             {colorMode === 'light' ? (
               <Icon as={RiSunLine} />
             ) : (
@@ -113,7 +103,7 @@ export default function Dashboard() {
               Chakra-UI Color mode in Next.Js
             </Text>
             <Button variant="primary">😀 open</Button>
-          </Box>
+          </Box> */}
         </Box>
       </SimpleGrid>
     </LayoutPage>

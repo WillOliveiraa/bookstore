@@ -8,8 +8,7 @@ const CategoriesUrl = {
     create: '/categories/create'
   },
   back: {
-    category: '/category',
-    get: '/category/get'
+    category: '/category'
   }
 };
 

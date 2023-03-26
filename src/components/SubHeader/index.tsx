@@ -14,7 +14,7 @@ export function SubHeader({ title, children, actions }: SubHeaderProps) {
   const isDark = colorMode === 'dark';
 
   return (
-    <Box flex="1" borderRadius={8} bg={isDark ? 'gray.800' : 'gray.50'} p="8">
+    <Box flex="1" borderRadius={8} bg={isDark ? 'gray.800' : 'gray.50'} p="8" boxShadow="lg">
       <Flex mb="8" justify="space-between" align="center">
         <Heading size="lg" fontWeight="bold">
           {title}

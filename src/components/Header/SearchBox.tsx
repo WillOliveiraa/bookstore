@@ -22,6 +22,7 @@ export function SearchBox() {
       position="relative"
       bg={isDark ? 'gray.800' : 'gray.50'}
       borderRadius="full"
+      boxShadow="lg"
     >
       <Input
         color={isDark ? 'gray.50' : 'gray.800'}
@@ -32,7 +33,12 @@ export function SearchBox() {
         _placeholder={{ color: 'gray.400' }}
       />
 
-      <IconButton icon={RiSearchLine} arialLabel="Search" onClick={() => {}} />
+      <IconButton
+        icon={RiSearchLine}
+        arialLabel="Search"
+        onClick={() => {}}
+        toltipLabel="Pesquisar"
+      />
     </Flex>
   );
 }

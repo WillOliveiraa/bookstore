@@ -18,9 +18,19 @@ export function NotificationsNav() {
       borderRightWidth={1}
       borderColor="gray.700"
     >
-      <IconButton arialLabel="Notification" icon={RiNotificationLine} onClick={() => {}} />
-      <IconButton arialLabel="Add" icon={RiUserAddLine} onClick={() => {}} />
-      <IconButton arialLabel="Logout" icon={RiLogoutBoxLine} onClick={logout} />
+      <IconButton
+        arialLabel="Notification"
+        icon={RiNotificationLine}
+        onClick={() => {}}
+        toltipLabel="Notificações"
+      />
+      <IconButton
+        arialLabel="Add"
+        icon={RiUserAddLine}
+        onClick={() => {}}
+        toltipLabel="Adicionar Usuário"
+      />
+      <IconButton arialLabel="Logout" icon={RiLogoutBoxLine} onClick={logout} toltipLabel="Sair" />
     </HStack>
   );
 }

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 import { AxiosError } from 'axios';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { RiAddLine, RiDeleteBinLine, RiPencilLine } from 'react-icons/ri';
 
@@ -9,7 +8,9 @@ import { RiAddLine, RiDeleteBinLine, RiPencilLine } from 'react-icons/ri';
 import { SubHeader } from '@/components/SubHeader';
 import { useEditCategory } from '@/contexts/categories/EditCategoryContext';
 import {
+  Box,
   Flex,
+  SkeletonText,
   Table,
   Tbody,
   Td,
@@ -64,9 +65,11 @@ export default function CategoriesList() {
   const { colorMode } = useColorMode();
   const isDark = colorMode === 'dark';
 
-  const { data: categories } = useQuery(['getAllCategories'], async () => {
+  const { data: categories, isLoading } = useQuery(['getAllCategories'], async () => {
     try {
       const response = await api.get<CategoryModel[]>('/category');
+
+      await new Promise((resolve) => setTimeout(resolve, 2000));
 
       return response.data;
     } catch (err) {
@@ -84,7 +87,7 @@ export default function CategoriesList() {
   }
 
   const actions = (
-    <DSButton icon={RiAddLine} hoverColorWeight="600" href={CategoriesUrl.front.create}>
+    <DSButton icon={RiAddLine} href={CategoriesUrl.front.create}>
       Criar nova
     </DSButton>
   );
@@ -94,69 +97,92 @@ export default function CategoriesList() {
     onOpen();
   }
 
+  function renderTable() {
+    return (
+      <Table>
+        <Thead>
+          <Tr>
+            <Th px="6" color="gray.300" width="8">
+              <DSCheckbox colorScheme="primaryColor" iconColor="white" />
+            </Th>
+            <Th>Título</Th>
+            <Th>Descrição</Th>
+            <Th width="8">Ações</Th>
+          </Tr>
+        </Thead>
+        <Tbody>
+          {categories &&
+            categories.map((category) => {
+              return (
+                <Tr key={category.id}>
+                  <Td px={['4', '4', '6']}>
+                    <DSCheckbox />
+                  </Td>
+                  <Td>
+                    <Text fontWeight="bold">{category.title}</Text>
+                  </Td>
+                  <Td>
+                    <Text fontSize="sm" color="gray.300">
+                      {category.description}
+                    </Text>
+                  </Td>
+                  <Td>
+                    <Flex gap="2">
+                      <DSButton
+                        href={CategoriesUrl.front.create}
+                        bgColor="secondary.500"
+                        icon={RiPencilLine}
+                        iconSize={16}
+                        onClick={() => handleEditCategory(category)}
+                      >
+                        Editar
+                      </DSButton>
+
+                      <DSButton
+                        bgColor="red.500"
+                        icon={RiDeleteBinLine}
+                        iconSize={16}
+                        onClick={() => onOpenAlert(category.title)}
+                      >
+                        Excluir
+                      </DSButton>
+                    </Flex>
+                  </Td>
+                </Tr>
+              );
+            })}
+        </Tbody>
+      </Table>
+    );
+  }
+
+  function renderSkaleton() {
+    return (
+      <Box flex="1" borderRadius={8} p="8" boxShadow="lg" bg="white">
+        <SkeletonText width={200} noOfLines={1} skeletonHeight="6" />
+        <SkeletonText mt={100} noOfLines={4} spacing="8" skeletonHeight="6" />
+        <Box display="flex" justifyContent="space-between" mt={50}>
+          <SkeletonText width={150} noOfLines={1} skeletonHeight="6" />
+          <SkeletonText width={200} noOfLines={1} skeletonHeight="6" />
+        </Box>
+      </Box>
+    );
+  }
+
   return (
     <LayoutPage>
-      <SubHeader title="Categorias" actions={actions}>
-        <Table>
-          <Thead>
-            <Tr>
-              <Th px="6" color="gray.300" width="8">
-                <DSCheckbox colorScheme="primaryColor" iconColor="white" />
-              </Th>
-              <Th>Título</Th>
-              <Th>Descrição</Th>
-              <Th width="8">Ações</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {categories &&
-              categories.map((category) => {
-                return (
-                  <Tr key={category.id}>
-                    <Td px={['4', '4', '6']}>
-                      <DSCheckbox />
-                    </Td>
-                    <Td>
-                      <Text fontWeight="bold">{category.title}</Text>
-                    </Td>
-                    <Td>
-                      <Text fontSize="sm" color="gray.300">
-                        {category.description}
-                      </Text>
-                    </Td>
-                    <Td>
-                      <Flex gap="2">
-                        <Link href={CategoriesUrl.front.create} passHref>
-                          <DSButton
-                            bgColor="secondary.500"
-                            icon={RiPencilLine}
-                            iconSize={16}
-                            onClick={() => handleEditCategory(category)}
-                          >
-                            Editar
-                          </DSButton>
-                        </Link>
-                        <DSButton
-                          bgColor="red.500"
-                          icon={RiDeleteBinLine}
-                          iconSize={16}
-                          hoverColorWeight="600"
-                          onClick={() => onOpenAlert(category.title)}
-                        >
-                          Excluir
-                        </DSButton>
-                      </Flex>
-                    </Td>
-                  </Tr>
-                );
-              })}
-          </Tbody>
-        </Table>
-        <Pagination totalPage={categories?.length} />
-        {/* <DataTable columns={columns} data={categories ?? []} /> */}
-        {/* <SortableTable data={data} /> */}
-        <CustomAlertDialog message={alertMessage} onClose={onClose} isOpen={isOpen} />
-      </SubHeader>
+      {isLoading ? (
+        renderSkaleton()
+      ) : (
+        <SubHeader title="Categorias" actions={actions}>
+          {renderTable()}
+
+          <Pagination totalPage={categories?.length} />
+          {/* <DataTable columns={columns} data={categories ?? []} /> */}
+          {/* <SortableTable data={data} /> */}
+          <CustomAlertDialog message={alertMessage} onClose={onClose} isOpen={isOpen} />
+        </SubHeader>
+      )}
     </LayoutPage>
   );
 }

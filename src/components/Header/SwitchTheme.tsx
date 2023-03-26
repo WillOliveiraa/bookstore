@@ -1,13 +1,15 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { RiMoonFill, RiSunLine } from 'react-icons/ri';
 
-import { Box, FormLabel, Icon, Input, useColorMode } from '@chakra-ui/react';
+import { Box, FormLabel, Icon, Input, Tooltip, useColorMode } from '@chakra-ui/react';
 
 export default function SwitchTheme() {
-  const { setColorMode } = useColorMode();
+  const { colorMode, setColorMode } = useColorMode();
   const [theme, setTheme] = useState('light');
   const isLight = theme.includes('light');
+
+  useEffect(() => setTheme(colorMode), []);
 
   async function toggleColorMode(value: string) {
     setTheme(value);
@@ -16,47 +18,55 @@ export default function SwitchTheme() {
   }
 
   return (
-    <FormLabel
-      htmlFor="theme-switcher"
-      as="label"
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      gap={2}
-      position="relative"
-      mt="2"
-    >
-      <Input
-        id="theme-switcher"
-        type="checkbox"
-        checked={isLight ? true : false}
-        onChange={() => toggleColorMode(isLight ? 'dark' : 'light')}
-        display="inline-block"
-        appearance="none"
-        cursor="pointer"
-        height="24px"
-        width="48px"
-        backgroundColor={isLight ? 'gray.100' : 'gray.700'}
-        border="1px solid"
-        borderColor={isLight ? 'gray.100' : 'gray.500'}
-        borderRadius="full"
-        _hover={{ color: isLight ? 'gray.100' : 'gray.500' }}
-      />
-      <Box
-        className={`iconMove `}
-        transition="all 0.2s ease-in"
-        transform={`${isLight ? 'translateX(0)' : 'translateX(24px)'}`}
-        position="absolute"
-        cursor="pointer"
-        top="1px"
-        left="1px"
-        w="22px"
-        h="22px"
-        bg={isLight ? 'white' : 'gray.500'}
-        borderRadius="full"
+    <Tooltip hasArrow label="Tema" bg={isLight ? 'gray.200' : 'gray.700'} color="white">
+      <FormLabel
+        htmlFor="theme-switcher"
+        as="label"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        gap={2}
+        position="relative"
+        mt="2"
       >
-        <Icon as={isLight ? RiSunLine : RiMoonFill} padding="2px" color="icon" w="22px" h="22px" />
-      </Box>
-    </FormLabel>
+        <Input
+          id="theme-switcher"
+          type="checkbox"
+          checked={isLight ? true : false}
+          onChange={() => toggleColorMode(isLight ? 'dark' : 'light')}
+          display="inline-block"
+          appearance="none"
+          cursor="pointer"
+          height="24px"
+          width="48px"
+          backgroundColor={isLight ? 'gray.100' : 'gray.700'}
+          border="1px solid"
+          borderColor={isLight ? 'gray.100' : 'gray.500'}
+          borderRadius="full"
+          _hover={{ color: isLight ? 'gray.100' : 'gray.500' }}
+        />
+        <Box
+          className={`iconMove `}
+          transition="all 0.2s ease-in"
+          transform={`${isLight ? 'translateX(0)' : 'translateX(24px)'}`}
+          position="absolute"
+          cursor="pointer"
+          top="1px"
+          left="1px"
+          w="22px"
+          h="22px"
+          bg={isLight ? 'white' : 'gray.500'}
+          borderRadius="full"
+        >
+          <Icon
+            as={isLight ? RiSunLine : RiMoonFill}
+            padding="2px"
+            color="icon"
+            w="22px"
+            h="22px"
+          />
+        </Box>
+      </FormLabel>
+    </Tooltip>
   );
 }
