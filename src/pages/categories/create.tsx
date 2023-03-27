@@ -23,7 +23,7 @@ import { useEditCategory } from '../../contexts/categories/EditCategoryContext';
 import { api } from '../../lib/axios';
 import CategoryModel from '../../models/category_model';
 import { CategorySchema } from '../../schemas/category_schema';
-import { CategoriesUrl } from '../../utlis/urls';
+import { CategoriesUrl } from '../../utils/urls';
 
 const categorySchema = CategorySchema();
 

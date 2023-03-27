@@ -2,7 +2,7 @@ import { RiSearchLine } from 'react-icons/ri';
 
 import { Flex, Input, useColorMode } from '@chakra-ui/react';
 
-import IconButton from '../IconButton';
+import DSIconButton from '../DSIconButton';
 
 export function SearchBox() {
   const { colorMode } = useColorMode();
@@ -33,9 +33,9 @@ export function SearchBox() {
         _placeholder={{ color: 'gray.400' }}
       />
 
-      <IconButton
-        icon={RiSearchLine}
-        arialLabel="Search"
+      <DSIconButton
+        customIcon={RiSearchLine}
+        aria-label="Search"
         onClick={() => {}}
         toltipLabel="Pesquisar"
       />

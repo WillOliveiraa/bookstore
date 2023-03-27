@@ -1,4 +1,3 @@
-import { useSidebarDrawer } from '@/contexts/SidebarDrawerContext';
 import {
   Box,
   Drawer,
@@ -10,6 +9,7 @@ import {
   useBreakpointValue
 } from '@chakra-ui/react';
 
+import { useSidebarDrawer } from '../../contexts/SidebarDrawerContext';
 import { SidebarNav } from './SidebarNav';
 
 export function Sidebar() {

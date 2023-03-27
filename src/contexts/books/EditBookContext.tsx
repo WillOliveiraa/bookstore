@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 
-import BookModel from '@/models/book_model';
+import BookModel from '../../models/book_model';
 
 interface EditBookContextProps {
   book: BookModel;

@@ -12,4 +12,8 @@ const CategoriesUrl = {
   }
 };
 
-export { CategoriesUrl, Api };
+const Auth = {
+  front: { login: '/login' }
+};
+
+export { CategoriesUrl, Api, Auth };

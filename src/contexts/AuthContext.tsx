@@ -8,7 +8,7 @@ import route from 'next/router';
 import { api } from '../lib/axios';
 import { LoginModel } from '../models/login_model';
 import UserModel from '../models/user_model';
-import { Api } from '../utlis/urls';
+import { Api } from '../utils/urls';
 
 interface AuthContextProps {
   children?: ReactNode;

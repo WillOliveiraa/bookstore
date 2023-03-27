@@ -3,10 +3,10 @@ import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { RiEyeLine, RiEyeOffLine, RiLock2Line, RiLoginBoxLine, RiUser3Line } from 'react-icons/ri';
 
-import IconButton from '@/components/IconButton';
 import { Flex, Icon, Image, Stack, Text, useColorMode } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 
+import DSIconButton from '../../components/DSIconButton';
 import DSButton from '../../components/Form/DSButton';
 import { DSInput } from '../../components/Form/DSInput';
 import { useAuth } from '../../contexts/AuthContext';
@@ -82,9 +82,9 @@ export default function Login() {
             error={errors.password}
             iconLeft={<Icon as={RiLock2Line} />}
             iconRight={
-              <IconButton
-                icon={show ? RiEyeOffLine : RiEyeLine}
-                arialLabel="Show or hide password"
+              <DSIconButton
+                customIcon={show ? RiEyeOffLine : RiEyeLine}
+                aria-label="Show or hide password"
                 onClick={handleShowOrHidePass}
               />
             }

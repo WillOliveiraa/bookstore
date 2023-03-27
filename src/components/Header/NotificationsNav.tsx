@@ -3,7 +3,7 @@ import { RiLogoutBoxLine, RiNotificationLine, RiUserAddLine } from 'react-icons/
 import { HStack } from '@chakra-ui/react';
 
 import { useAuth } from '../../contexts/AuthContext';
-import IconButton from '../IconButton';
+import DSIconButton from '../DSIconButton';
 
 export function NotificationsNav() {
   const { logout } = useAuth();
@@ -18,19 +18,24 @@ export function NotificationsNav() {
       borderRightWidth={1}
       borderColor="gray.700"
     >
-      <IconButton
-        arialLabel="Notification"
-        icon={RiNotificationLine}
+      <DSIconButton
+        aria-label="Notification"
+        customIcon={RiNotificationLine}
         onClick={() => {}}
         toltipLabel="Notificações"
       />
-      <IconButton
-        arialLabel="Add"
-        icon={RiUserAddLine}
+      <DSIconButton
+        aria-label="Add"
+        customIcon={RiUserAddLine}
         onClick={() => {}}
         toltipLabel="Adicionar Usuário"
       />
-      <IconButton arialLabel="Logout" icon={RiLogoutBoxLine} onClick={logout} toltipLabel="Sair" />
+      <DSIconButton
+        aria-label="Logout"
+        customIcon={RiLogoutBoxLine}
+        onClick={logout}
+        toltipLabel="Sair"
+      />
     </HStack>
   );
 }

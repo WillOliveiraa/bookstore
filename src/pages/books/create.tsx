@@ -2,10 +2,10 @@ import Link from 'next/link';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
-import { Input } from '@/components/Form/DSInput';
 import { Box, Button, Divider, Flex, Heading, HStack, SimpleGrid, VStack } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 
+import { DSInput } from '../../components/Form/DSInput';
 import { Header } from '../../components/Header';
 import { Sidebar } from '../../components/Sidebar';
 
@@ -60,13 +60,13 @@ export default function CreateBook() {
 
           <VStack spacing="8">
             <SimpleGrid minChildWidth="240px" spacing={['6', '8']} w="100%">
-              <Input
+              <DSInput
                 {...register('title')}
                 name="name"
                 label="Nome completo"
                 error={errors.title}
               />
-              <Input
+              <DSInput
                 {...register('price')}
                 name="email"
                 type="email"
@@ -76,14 +76,14 @@ export default function CreateBook() {
             </SimpleGrid>
 
             <SimpleGrid minChildWidth="240px" spacing={['6', '8']} w="100%">
-              <Input
+              <DSInput
                 {...register('numPage')}
                 name="password"
                 type="password"
                 label="Senha"
                 error={errors.numPage}
               />
-              <Input
+              <DSInput
                 {...register('imageUrl')}
                 name="imageUrl"
                 type="password"
