@@ -4,9 +4,7 @@ import { AxiosError } from 'axios';
 import { useRouter } from 'next/router';
 import { RiAddLine, RiDeleteBinLine, RiPencilLine } from 'react-icons/ri';
 
-// import { DataTable } from '@/components/DataTable';
-import { SubHeader } from '@/components/SubHeader';
-import { useEditCategory } from '@/contexts/categories/EditCategoryContext';
+import DSTable from '@/components/DataDisplay/DSTable';
 import {
   Box,
   Flex,
@@ -18,52 +16,34 @@ import {
   Th,
   Thead,
   Tr,
-  useColorMode,
   useDisclosure
 } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 
-// import { createColumnHelper } from '@tanstack/react-table';
 import CustomAlertDialog from '../../components/AlertDialog';
-// import data from '../../components/SortableTable/data.json';
 import DSButton from '../../components/Form/DSButton';
 import DSCheckbox from '../../components/Form/DSCheckbox';
 import LayoutPage from '../../components/LayoutPage';
 import { Pagination } from '../../components/Pagination';
+import { SubHeader } from '../../components/SubHeader';
+import { useEditCategory } from '../../contexts/categories/EditCategoryContext';
 import { api } from '../../lib/axios';
 import CategoryModel from '../../models/category_model';
-import { CategoriesUrl } from '../../utlis/urls';
+import { Auth, CategoriesUrl } from '../../utils/urls';
 
-// interface CategoryTableProps {
-//   title: string;
-//   description?: string;
-//   // actions: void;
-// }
+const columns = [
+  { label: 'Selecionar', accessor: 'select', sortable: false },
+  { label: 'Título', accessor: 'title', sortable: true, sortbyOrder: 'desc', isBold: true },
+  { label: 'Descrição', accessor: 'description', sortable: true },
+  { label: 'Ações', accessor: 'actions', sortable: false }
+];
 
 export default function CategoriesList() {
-  // const columnHelper = createColumnHelper<CategoryTableProps>();
-
-  // const columns = [
-  //   columnHelper.accessor('title', {
-  //     cell: (info) => info.getValue(),
-  //     header: 'Título'
-  //   }),
-  //   columnHelper.accessor('description', {
-  //     cell: (info) => info.getValue(),
-  //     header: 'Descrição'
-  //   })
-  //   // columnHelper.accessor('actions', {
-  //   //   cell: (info) => info.getValue(),
-  //   //   header: 'Ações'
-  //   // })
-  // ];
-
   const [alertMessage, setAlertMessage] = useState('');
   const { setSelectedCategory } = useEditCategory();
   const router = useRouter();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const { colorMode } = useColorMode();
-  const isDark = colorMode === 'dark';
+  const { isOpen: isOpenRemove, onOpen: onOpenRemove, onClose: onCloseRemove } = useDisclosure();
+  const { isOpen: isOpenAuth, onOpen: onOpenAuth, onClose: onCloseAuth } = useDisclosure();
 
   const { data: categories, isLoading } = useQuery(['getAllCategories'], async () => {
     try {
@@ -74,7 +54,7 @@ export default function CategoriesList() {
       return response.data;
     } catch (err) {
       if (err instanceof AxiosError && err?.response?.data?.message) {
-        alert(err.response.data.message);
+        onOpenAuth();
         return;
       }
     }
@@ -86,15 +66,23 @@ export default function CategoriesList() {
     await router.push(`${CategoriesUrl.front.create}?category=${data.id}`);
   }
 
-  const actions = (
+  const actionsCreate = (
     <DSButton icon={RiAddLine} href={CategoriesUrl.front.create}>
       Criar nova
     </DSButton>
   );
 
-  function onOpenAlert(title: string) {
+  async function onOpenAlert(title: string) {
     setAlertMessage(`Deseja realmente excluir a categoria ${title}?`);
-    onOpen();
+
+    await new Promise((resolve) => setTimeout(resolve, 300));
+
+    onOpenRemove();
+  }
+
+  function handleAuth() {
+    router.push(Auth.front.login);
+    onCloseAuth();
   }
 
   function renderTable() {
@@ -169,18 +157,36 @@ export default function CategoriesList() {
     );
   }
 
+  function renderAlerts() {
+    return (
+      <>
+        <CustomAlertDialog message={alertMessage} onClose={onCloseRemove} isOpen={isOpenRemove} />
+        <CustomAlertDialog
+          title="Alerta"
+          message="Sua sessão foi expirada, será necessário fazer o login novamente."
+          isConfirmation={false}
+          onClose={handleAuth}
+          isOpen={isOpenAuth}
+        />
+      </>
+    );
+  }
+
   return (
     <LayoutPage>
       {isLoading ? (
         renderSkaleton()
       ) : (
-        <SubHeader title="Categorias" actions={actions}>
-          {renderTable()}
+        <SubHeader title="Categorias" actions={actionsCreate}>
+          <DSTable
+            data={categories}
+            columns={columns}
+            editItem={handleEditCategory}
+            removeItem={onOpenAlert}
+          />
 
           <Pagination totalPage={categories?.length} />
-          {/* <DataTable columns={columns} data={categories ?? []} /> */}
-          {/* <SortableTable data={data} /> */}
-          <CustomAlertDialog message={alertMessage} onClose={onClose} isOpen={isOpen} />
+          {renderAlerts()}
         </SubHeader>
       )}
     </LayoutPage>
